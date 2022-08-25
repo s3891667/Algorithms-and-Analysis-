@@ -11,6 +11,7 @@ class ListNode:
     '''
     Define a node in the linked list
     '''
+
     def __init__(self, word_frequency: WordFrequency):
         self.word_frequency = word_frequency
         self.next = None
@@ -102,6 +103,7 @@ class LinkedListDictionary(BaseDictionary):
             while(current.next):
                 if(current.next.word_frequency.word == word):
                     delNode = current.next
+                    del current.next
                     nodeAfter = delNode.next
                     current.next = nodeAfter
                     return True
