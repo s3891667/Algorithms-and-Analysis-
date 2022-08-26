@@ -1,6 +1,3 @@
-from ast import arg
-from operator import indexOf
-import sys
 from dictionary import word_frequency
 from dictionary.word_frequency import WordFrequency
 from dictionary.base_dictionary import BaseDictionary

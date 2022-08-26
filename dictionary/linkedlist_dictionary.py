@@ -1,12 +1,5 @@
-from ast import Lambda
-from audioop import reverse
-from lib2to3.pytree import Node
-from readline import insert_text
-from typing import List
 from dictionary.base_dictionary import BaseDictionary
 from dictionary.word_frequency import WordFrequency
-
-
 class ListNode:
     '''
     Define a node in the linked list
@@ -57,14 +50,11 @@ class LinkedListDictionary(BaseDictionary):
         @param word: the word to be searched
         @return: frequency > 0 if found and 0 if NOT found
         """
-        if(llist.head.word_frequency.word == word):
-            return llist.head.word_frequency.frequency
-        else:
-            current = llist.head
-            while(current.next):
-                current = current.next
-                if(current.word_frequency.word == word):
-                    return current.word_frequency.frequency
+        current = llist.head
+        while(current.next):
+            if(current.word_frequency.word == word):
+                return current.word_frequency.frequency
+            current = current.next
         return 0
 
     def add_word_frequency(self, word_frequency: WordFrequency) -> bool:
@@ -73,14 +63,11 @@ class LinkedListDictionary(BaseDictionary):
         @param word_frequency: (word, frequency) to be added
         :return: True whether succeeded, False when word is already in the dictionary
         """
-        if(llist.head.word_frequency.word == word_frequency.word):
-            return False
-        else:
-            current = llist.head
-            while(current.next):
-                current = current.next
-                if(current.word_frequency.word == word_frequency.word):
-                    return False
+        current = llist.head
+        while(current.next):
+            if(current.word_frequency.word == word_frequency.word):
+                return False
+            current = current.next
         insertNode = ListNode(word_frequency)
         oldNode = llist.head
         llist.head = insertNode
@@ -97,6 +84,7 @@ class LinkedListDictionary(BaseDictionary):
         if (llist.head.word_frequency.word == word):
             current = llist.head
             llist.head = current.next
+            del current
             return True
         else:
             current = llist.head
@@ -117,14 +105,12 @@ class LinkedListDictionary(BaseDictionary):
         @return: a list (could be empty) of (at most) 3 most-frequent words with prefix 'word'
         """
         freqList = []
-        if(llist.head.word_frequency.word.startswith(word)):
-            freqList.append(llist.head.word_frequency)
         current = llist.head
         while(current.next):
-            current = current.next
             if(current.word_frequency.word.startswith(word)):
                 freqList.append(current.word_frequency)
                 freqList.sort(key=lambda x: x.word)
+            current = current.next
         freqList.sort(reverse=True, key=lambda x: x.frequency)
         del freqList[3:]
         return freqList
