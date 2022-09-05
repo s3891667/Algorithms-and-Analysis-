@@ -4,8 +4,7 @@ from dictionary.base_dictionary import BaseDictionary
 from dictionary.array_dictionary import ArrayDictionary
 from dictionary.linkedlist_dictionary import LinkedListDictionary
 from dictionary.trie_dictionary import TrieDictionary
-
-
+import time
 # -------------------------------------------------------------------
 # DON'T CHANGE THIS FILE.
 # This is the entry point to run the program in file-based mode.
@@ -17,17 +16,17 @@ from dictionary.trie_dictionary import TrieDictionary
 # __copyright__ = 'Copyright 2022, RMIT University'
 # -------------------------------------------------------------------
 
+
 def usage():
     """
     Print help/usage message.
     """
     # On Teaching servers, use 'python3'
     # On Windows, you may need to use 'python' instead of 'python3'
-    print('python3 dictionary_file_based.py', '<approach> <data fileName> <command fileName> <output fileName>')
+    print('python3 dictionary_file_based.py',
+          '<approach> <data fileName> <command fileName> <output fileName>')
     print('<approach> = <array | linkedlist | trie>')
     sys.exit(1)
-
-
 
 
 if __name__ == '__main__':
@@ -59,7 +58,8 @@ if __name__ == '__main__':
             values = line.split()
             word = values[0]
             frequency = int(values[1])
-            word_frequency = WordFrequency(word, frequency)  # each line contains a word and its frequency
+            # each line contains a word and its frequency
+            word_frequency = WordFrequency(word, frequency)
             words_frequencies_from_file.append(word_frequency)
         data_file.close()
         agent.build_dictionary(words_frequencies_from_file)
@@ -73,7 +73,8 @@ if __name__ == '__main__':
     try:
         command_file = open(command_filename, 'r')
         output_file = open(output_filename, 'w')
-
+        # testing time
+        start = time.process_time()
         for line in command_file:
             command_values = line.split()
             command = command_values[0]
@@ -82,7 +83,8 @@ if __name__ == '__main__':
                 word = command_values[1]
                 search_result = agent.search(word)
                 if search_result > 0:
-                    output_file.write(f"Found '{word}' with frequency {search_result}\n")
+                    output_file.write(
+                        f"Found '{word}' with frequency {search_result}\n")
                 else:
                     output_file.write(f"NOT Found '{word}'\n")
 
@@ -117,8 +119,11 @@ if __name__ == '__main__':
                 print('Unknown command.')
                 print(line)
 
+        end = time.process_time()
+        print("Total time : " + str(end-start))
         output_file.close()
         command_file.close()
+
     except FileNotFoundError as e:
         print("Command file doesn't exist.")
         usage()

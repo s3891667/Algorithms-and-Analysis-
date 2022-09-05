@@ -1,8 +1,10 @@
 from dictionary import word_frequency
 from dictionary.word_frequency import WordFrequency
 from dictionary.base_dictionary import BaseDictionary
-import bisect
-
+import time
+from numpy.random import seed
+from numpy.random import randint
+import matplotlib.pyplot as plt
 # ------------------------------------------------------------------------
 # This class is required TO BE IMPLEMENTED
 # Array-based dictionary implementation
@@ -16,6 +18,7 @@ class ArrayDictionary(BaseDictionary):
 
     def __init__(self):
         self.words_frequencies = []
+        self.time = 0
         pass
 
     def build_dictionary(self, words_frequencies: [WordFrequency]):
