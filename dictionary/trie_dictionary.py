@@ -46,10 +46,8 @@ class TrieDictionary(BaseDictionary):
         construct the data structure to store nodes
         @param words_frequencies: list of (word, frequency) to be stored
         """
-        global trieDict
-        trieDict = TrieDictionary()
         for data in words_frequencies:
-            trieDict.linkNode(data.word, data.frequency)
+            self.linkNode(data.word, data.frequency)
 
     def search(self, word: str) -> int:
         """
@@ -57,7 +55,7 @@ class TrieDictionary(BaseDictionary):
         @param word: the word to be searched
         @return: frequency > 0 if found and 0 if NOT found
         """
-        currentNode = trieDict.root
+        currentNode = self.root
         for char in range(len(word)):
             for letter in currentNode.children.keys():
                 if(word[char] == letter):
@@ -73,7 +71,7 @@ class TrieDictionary(BaseDictionary):
         @param word_frequency: (word, frequency) to be added
         :return: True whether succeeded, False when word is already in the dictionary
         """
-        currentNode = trieDict.root
+        currentNode = self.root
         # word in trie: c-u-t-e (data)
         # word to add : c-u-t
         word = word_frequency.word
@@ -84,7 +82,7 @@ class TrieDictionary(BaseDictionary):
                     while(currentNode.is_last
                           and data == len(word) - 1):
                         return False
-        trieDict.linkNode(word_frequency.word, word_frequency.frequency)
+        self.linkNode(word_frequency.word, word_frequency.frequency)
         return True
 
     def delete_word(self, word: str) -> bool:
@@ -93,7 +91,7 @@ class TrieDictionary(BaseDictionary):
         @param word: word to be deleted
         @return: whether succeeded, e.g. return False when point not found
         """
-        currentNode = trieDict.root
+        currentNode = self.root
         for char in range(len(word)):
             for letter in currentNode.children.keys():
                 if(word[char] == letter):
@@ -124,18 +122,21 @@ class TrieDictionary(BaseDictionary):
         @return: a list (could be empty) of (at most) 3 most-frequent words with prefix 'word'
         """
         finalList = []
-        currentNode = trieDict.root
+        currentNode = self.root
         for char in word:
             if char in currentNode.children:
                 currentNode = currentNode.children[char]
             else:
                 currentNode = None
+                break
         if(currentNode != None):
-            finalList = trieDict._dfs(currentNode, word, [])
-        if(trieDict.search(word) != 0):
+            finalList = self._dfs(currentNode, word, [])
+        if(self.search(word) != 0):
             object = WordFrequency(word, currentNode.frequency)
             finalList.append(object)
         finalList.sort(key=lambda x: x.word)
         finalList.sort(reverse=True, key=lambda x: x.frequency)
         del finalList[3:]
         return finalList
+
+# self = TrieDictionary()

@@ -78,6 +78,7 @@ if __name__ == '__main__':
         for line in command_file:
             command_values = line.split()
             command = command_values[0]
+
             # search
             if command == 'S':
                 word = command_values[1]
@@ -120,7 +121,11 @@ if __name__ == '__main__':
                 print(line)
 
         end = time.process_time()
-        print("Total time : " + str(end-start))
+        total =   ((end-start)*1000)
+        outputFile = open('Timefile.txt', 'a')
+        outputFile.write("{:0.2f}".format(total) + ",")
+        # print("Total time : " + str((end-start)*1000))
+        outputFile.close()
         output_file.close()
         command_file.close()
 

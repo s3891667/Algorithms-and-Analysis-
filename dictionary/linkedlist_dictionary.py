@@ -1,5 +1,7 @@
 from dictionary.base_dictionary import BaseDictionary
 from dictionary.word_frequency import WordFrequency
+
+
 class ListNode:
     '''
     Define a node in the linked list
@@ -25,24 +27,16 @@ class LinkedListDictionary(BaseDictionary):
         self.next = None
         pass
 
-    def insert(self, node: ListNode):
-        if(self.head):
-            current = self.head
-            while(current.next):
-                current = current.next
-            current.next = node
-        else:
-            self.head = node
-
     def build_dictionary(self, words_frequencies: [WordFrequency]):
         """
         construct the data structure to store nodes
         @param words_frequencies: list of (word, frequency) to be stored
         """
-        global llist
-        llist = LinkedListDictionary()
-        for data in words_frequencies:
-            llist.insert(ListNode(data))
+        self.head = ListNode(words_frequencies[0])
+        node = self.head
+        for i in range(1, len(words_frequencies)):
+            node.next = ListNode(words_frequencies[i])
+            node = node.next
 
     def search(self, word: str) -> int:
         """
@@ -50,7 +44,7 @@ class LinkedListDictionary(BaseDictionary):
         @param word: the word to be searched
         @return: frequency > 0 if found and 0 if NOT found
         """
-        current = llist.head
+        current = self.head
         while(current.next):
             if(current.word_frequency.word == word):
                 return current.word_frequency.frequency
@@ -63,15 +57,15 @@ class LinkedListDictionary(BaseDictionary):
         @param word_frequency: (word, frequency) to be added
         :return: True whether succeeded, False when word is already in the dictionary
         """
-        current = llist.head
+        current = self.head
         while(current.next):
             if(current.word_frequency.word == word_frequency.word):
                 return False
             current = current.next
         insertNode = ListNode(word_frequency)
-        oldNode = llist.head
-        llist.head = insertNode
-        current = llist.head
+        oldNode = self.head
+        self.head = insertNode
+        current = self.head
         current.next = oldNode
         return True
 
@@ -81,13 +75,13 @@ class LinkedListDictionary(BaseDictionary):
         @param word: word to be deleted
         @return: whether succeeded, e.g. return False when point not found
         """
-        if (llist.head.word_frequency.word == word):
-            current = llist.head
-            llist.head = current.next
+        if (self.head.word_frequency.word == word):
+            current = self.head
+            self.head = current.next
             del current
             return True
         else:
-            current = llist.head
+            current = self.head
             while(current.next):
                 if(current.next.word_frequency.word == word):
                     delNode = current.next
@@ -105,7 +99,7 @@ class LinkedListDictionary(BaseDictionary):
         @return: a list (could be empty) of (at most) 3 most-frequent words with prefix 'word'
         """
         freqList = []
-        current = llist.head
+        current = self.head
         while(current.next):
             if(current.word_frequency.word.startswith(word)):
                 freqList.append(current.word_frequency)

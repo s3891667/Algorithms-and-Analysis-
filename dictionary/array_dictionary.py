@@ -1,10 +1,6 @@
 from dictionary import word_frequency
 from dictionary.word_frequency import WordFrequency
 from dictionary.base_dictionary import BaseDictionary
-import time
-from numpy.random import seed
-from numpy.random import randint
-import matplotlib.pyplot as plt
 # ------------------------------------------------------------------------
 # This class is required TO BE IMPLEMENTED
 # Array-based dictionary implementation
